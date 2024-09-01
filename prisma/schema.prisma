@@ -1,0 +1,78 @@
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+
+
+model sale{
+id Int @id @default(autoincrement())
+name String 
+starttime DateTime 
+status String
+createdat DateTime @default(now())
+updated DateTime @updatedAt
+items itemsale[]
+transaction Transaction[]
+}
+
+
+model itemdetails{
+id Int @id @default(autoincrement())
+name String
+description String
+price Int
+stocknumber Int
+category String
+createdat DateTime @default(now())
+itemsals itemsale []
+transaction Transaction[]
+}
+
+model itemsale{
+
+id Int @id @default(autoincrement())
+saleid Int
+itemid Int
+stock Int
+sale sale @relation(fields: [saleid], references: [id])
+itemdetails itemdetails @relation(fields: [itemid], references: [id])
+createdat DateTime @default(now())
+updated DateTime @updatedAt
+ @@unique([saleid, itemid])
+// transaction Transaction[]
+}
+
+
+model user{
+  id Int @id @default(autoincrement())
+  name String
+  email String @unique
+  password String
+  createdat DateTime @default(now())
+  updatedat DateTime @updatedAt
+  transaction Transaction[]
+}
+
+model Transaction{
+
+   id Int @id @default(autoincrement())
+   customerid Int
+   saleid Int
+   itemid Int
+   quantity Int
+   totalprice Int
+  //  itemsaleid int
+   createdat DateTime @default(now())
+   customer user @relation(fields: [customerid],references: [id])
+   sale sale @relation(fields: [saleid],references: [id])
+   item itemdetails @relation(fields: [itemid],references: [id])
+  //  itemsale itemsale @relation(fields: [itemsaleid], references: [id])
+}
+
