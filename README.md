@@ -26,7 +26,7 @@ The itemsale table in your project is designed to manage the details of items th
 
 ## Customer Registration Along with JWT
 
-![New users](./images/CUSTOMER.png)
+![New users](./images/customer.png)
 
 ## Customer Purchase of item
 
